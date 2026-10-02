@@ -56,16 +56,11 @@ const clientDistPath = path.resolve(__dirname, '../client/dist');
 if (fs.existsSync(clientDistPath)) {
   console.log('📦 Serving production client build from client/dist');
   app.use(express.static(clientDistPath));
-  app.get('*', (req, res, next) => {
+  app.use((req, res, next) => {
     if (req.path.startsWith('/api')) return next();
     res.sendFile(path.join(clientDistPath, 'index.html'));
   });
 }
-
-// 404 Route Handler for unmatched API routes
-app.use('/api/*', (req, res) => {
-  res.status(404).json({ error: true, message: 'Endpoint not found.' });
-});
 
 // Centralized Error Handling Middleware
 app.use((err, req, res, next) => {
