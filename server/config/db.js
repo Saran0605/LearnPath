@@ -11,10 +11,10 @@ const connectDB = async () => {
 
     if (!isPlaceholder) {
       console.log('🔄 Connecting to MongoDB Atlas...');
-      await mongoose.connect(uri);
+      await mongoose.connect(uri, { serverSelectionTimeoutMS: 5000 });
       console.log('✅ Connected to MongoDB Atlas successfully.');
     } else {
-      console.log('⚠️ MONGODB_URI not set or contains placeholder. Starting MongoMemoryServer fallback for local testing...');
+      console.log('⚠️ MONGODB_URI not set or contains placeholder. Starting MongoMemoryServer fallback...');
       mongoServer = await MongoMemoryServer.create();
       const memoryUri = mongoServer.getUri();
       await mongoose.connect(memoryUri);
@@ -35,7 +35,6 @@ const connectDB = async () => {
         console.error('❌ MongoMemoryServer fallback also failed:', memErr.message);
       }
     }
-    process.exit(1);
   }
 };
 
