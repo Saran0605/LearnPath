@@ -1,0 +1,18 @@
+{
+  "name": "learnpath-monorepo",
+  "version": "1.0.0",
+  "description": "LearnPath - AI-powered learning resource aggregator based on real developer feedback",
+  "main": "server/server.js",
+  "scripts": {
+    "dev": "concurrently \"npm run dev --prefix server\" \"npm run dev --prefix client\"",
+    "start": "node server/server.js",
+    "build": "npm install --prefix server && npm install --prefix client && npm run build --prefix client",
+    "server": "npm run dev --prefix server",
+    "client": "npm run dev --prefix client",
+    "seed": "npm run seed --prefix server",
+    "install-all": "npm install && npm install --prefix server && npm install --prefix client"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
