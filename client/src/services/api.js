@@ -1,7 +1,18 @@
 import axios from 'axios';
 
-// Vite environment variable or local server default
-const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+// Determine API base URL dynamically for Dev vs Production
+const getApiBase = () => {
+  if (import.meta.env.VITE_API_URL) {
+    return import.meta.env.VITE_API_URL;
+  }
+  // In production (e.g. Render fullstack deploy), use relative /api path
+  if (import.meta.env.MODE === 'production' || typeof window !== 'undefined' && window.location.hostname !== 'localhost') {
+    return '/api';
+  }
+  return 'http://localhost:5000/api';
+};
+
+const API_BASE = getApiBase();
 
 const api = axios.create({
   baseURL: API_BASE,
